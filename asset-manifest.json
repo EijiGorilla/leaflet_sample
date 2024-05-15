@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/leaflet_sample/static/css/main.3a9fedab.css",
+    "main.js": "/leaflet_sample/static/js/main.58906e61.js",
+    "static/js/453.c40af0a7.chunk.js": "/leaflet_sample/static/js/453.c40af0a7.chunk.js",
+    "index.html": "/leaflet_sample/index.html",
+    "main.3a9fedab.css.map": "/leaflet_sample/static/css/main.3a9fedab.css.map",
+    "main.58906e61.js.map": "/leaflet_sample/static/js/main.58906e61.js.map",
+    "453.c40af0a7.chunk.js.map": "/leaflet_sample/static/js/453.c40af0a7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3a9fedab.css",
+    "static/js/main.58906e61.js"
+  ]
+}
