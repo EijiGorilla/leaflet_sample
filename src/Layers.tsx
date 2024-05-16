@@ -116,6 +116,7 @@ const Layers = (props: any) => {
       am5.Legend.new(root, {
         centerX: am5.percent(50),
         x: am5.percent(50),
+        scale: 1.15,
       }),
     );
     legendRef.current = legend;
@@ -241,12 +242,15 @@ const Layers = (props: any) => {
     };
   }
 
-  // Filter data when clicked on Chart
+  // Filter Status data when clicked on Chart
   useEffect(() => {
     if (selectedStateChart) {
       // Filter props.data based on selected props.state
-      const filtered_data = props.data.filter(
-        (a: any) => a.properties.StatusNVS3 === selectedStateChart,
+      console.log(props.state);
+      const filtered_data = props.data.filter((a: any) =>
+        props.state === null || props.state === 'All'
+          ? a.properties.StatusNVS3 === selectedStateChart
+          : a.properties.StatusNVS3 === selectedStateChart && a.properties.Station1 === props.state,
       );
       borderSelected.removeFrom(map);
       const border = L.geoJSON(filtered_data, {
@@ -269,12 +273,15 @@ const Layers = (props: any) => {
     }
   });
 
+  // Zoom to the selected polygon
   useEffect(() => {
     if (props.state && props.state !== 'All') {
       setUsaData(props.state);
 
       // Filter props.data based on selected props.state
+
       const filtered_data = props.data.filter((a: any) => a.properties.Station1 === props.state);
+
       borderSelected.removeFrom(map);
       const border = L.geoJSON(filtered_data[0]);
       setBorderSelected(border);
@@ -404,12 +411,12 @@ const Layers = (props: any) => {
   return (
     <>
       <div
-        className="bg-slate-800 border border-slate-500"
+        className="bg-slate-800 border border-slate-500 h-full"
         style={{
           position: 'absolute',
           zIndex: '900',
-          height: '100%',
-          width: '24vw',
+          // height: '100%',
+          width: '350px',
           // backgroundColor: '#000',
           color: 'white',
         }}

@@ -1,22 +1,12 @@
 import React, { Component, useEffect, useState, createContext, useContext, useRef } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  GeoJSON,
-  useMap,
-  Marker,
-  Popup,
-  ZoomControl,
-  Polygon,
-  LayersControl,
-} from 'react-leaflet';
+import { MapContainer, ZoomControl } from 'react-leaflet';
 import Layers from './Layers';
 import Select from 'react-select';
 import './index.css';
 import './App.css';
-import { lotStatusField, statusLotLabel, statusLotQuery } from './StatusUniqueValues';
 import { uniqueValue } from './Query';
 import * as am5 from '@amcharts/amcharts5';
+import { updatechartData } from './Query';
 
 // Read https://react-leaflet.js.org/docs/api-map/
 function App() {
@@ -24,10 +14,10 @@ function App() {
   const [initStations, setInitStations] = useState<null | undefined | any>();
   const [stationSelected, setStationSelected] = useState<null | any>(null);
   const [resetLegend, setResetLegend] = useState<boolean>(true);
-  const [testText, setTestText] = useState<any>('');
 
   const data_usa =
     'https://raw.githubusercontent.com/EijiGorilla/EijiGorilla.github.io/master/WebApp/ArcGIS_API_for_JavaScript/Sample/MMSP_Land_Sample.geojson';
+  const [initialGeojsonData, setInitialGeojsonData] = useState([]);
   const [geojsonData, setGeojsonData] = useState([]);
   const [chartData, setChartData] = useState<any>();
 
@@ -39,7 +29,7 @@ function App() {
     arr.push(elem);
     return arr;
   }
-  console.log(testText);
+
   // Read geojson
   useEffect(() => {
     fetch(data_usa)
@@ -47,7 +37,8 @@ function App() {
         return response.json();
       })
       .then((data: any) => {
-        setGeojsonData(data.features);
+        setInitialGeojsonData(data.features);
+        setGeojsonData(data.features); // store as default geojson data when station is selected 'All'
 
         // Create an object array of dropdown values
         let station_all: any = [];
@@ -65,26 +56,22 @@ function App() {
         setInitStations(final);
 
         // Create an object array of chart values
-        let status_all: any = [];
-        data.features.map((property: any, index: any) => {
-          if (property.properties && property.properties.StatusNVS3) {
-            status_all.push(property.properties.StatusNVS3);
-          }
-        });
-        const chartArray = uniqueValue(status_all)
-          .sort()
-          .map((status: any, index: any) => {
-            return Object.assign({
-              category: statusLotLabel[status - 1],
-              value: status,
-              sliceSettings: {
-                fill: am5.color(statusLotQuery[index].color),
-              },
-            });
-          });
-        setChartData(chartArray);
+        setChartData(updatechartData(data.features, 'All'));
       });
   }, []);
+
+  // Update chart data when station is clicked
+  useEffect(() => {
+    if (stationSelected) {
+      const filtered_data = initialGeojsonData.filter(
+        (a: any) => a.properties.Station1 === stationSelected.field1,
+      );
+
+      stationSelected.field1 === 'All'
+        ? setChartData(updatechartData(geojsonData, stationSelected.field1)) // when station is selected 'All'
+        : setChartData(updatechartData(filtered_data, stationSelected.field1)); // when station is not selected and selcted
+    }
+  }, [stationSelected]);
 
   const handleMunicipalityChange = (obj: any) => {
     setStationSelected(obj);
@@ -142,7 +129,7 @@ function App() {
         >
           <Layers
             className="absolute z-90"
-            data={geojsonData}
+            data={initialGeojsonData}
             state={stationSelected && stationSelected.field1}
             legendr={resetLegend}
             chartdata={chartData && chartData}
