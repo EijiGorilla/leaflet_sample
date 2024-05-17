@@ -496,7 +496,10 @@ const Layers = (props: any) => {
         </Popup>
       </Marker>
       <LayersControl position="topright">
-        <LayersControl.BaseLayer checked name="Basic Map">
+        <LayersControl.BaseLayer checked name="Satellite Map">
+          <TileLayer url="http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+        </LayersControl.BaseLayer>
+        <LayersControl.BaseLayer name="Basic Map">
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
