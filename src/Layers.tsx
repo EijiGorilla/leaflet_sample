@@ -411,7 +411,8 @@ const Layers = (props: any) => {
   return (
     <>
       <div
-        className="bg-slate-800 border border-slate-500 h-full"
+        // border border-slate-500
+        className="bg-slate-800 h-full border-r-4 border-slate-500"
         style={{
           position: 'absolute',
           zIndex: '900',
@@ -421,18 +422,23 @@ const Layers = (props: any) => {
           color: 'white',
         }}
       >
-        <div className="text-lg mt-2 ml-2">Total Number of Lots</div>
-        <div className="text-5xl text-orange-500 text-center font-bold pt-4">
-          {!totalNumberLots ? defaultTotalNumberLots : totalNumberLots}
+        <div className="text-2xl mt-3 ml-2">
+          Total Lots
+          <div className="text-6xl text-orange-500 text-center font-bold pt-4">
+            {!totalNumberLots ? defaultTotalNumberLots : totalNumberLots}
+          </div>
         </div>
+
         <div
           id={chartID}
-          className="mt-5"
+          className="mt-5 border-t-4 border-slate-500"
           style={{
             height: '50%',
             color: 'white',
           }}
-        ></div>
+        >
+          <div className="text-2xl mt-3 ml-2 mb-3">Land Acquisition</div>
+        </div>
       </div>
 
       <button
@@ -440,12 +446,12 @@ const Layers = (props: any) => {
         style={{
           position: 'absolute',
           zIndex: '900',
-          height: '5%',
+          height: '35px',
           width: '5%',
 
           color: 'white',
-          bottom: '4%',
-          right: '13%',
+          bottom: '30px',
+          right: '200px',
         }}
         onClick={() => setResetClick(resetClick === false ? true : false)}
       >

@@ -93,7 +93,7 @@ function App() {
       ...defaultStyles,
       backgroundColor: '#2b2b2b',
       borderColor: '#949494',
-      height: 35,
+      height: '35',
       width: '170px',
       color: '#ffffff',
     }),
@@ -101,15 +101,20 @@ function App() {
   };
 
   return (
-    <div className="parent h-screen flex flex-col border-2 border-slate-500">
+    // border-2 border-slate-500
+    <div className="parent h-screen flex flex-col bg-slate-500">
       <header
         id="header"
-        className="flex items-stretch h-fit p-4 bg-slate-800 text-slate-100 text-2xl border border-slate-500"
+        className="flex items-stretch h-fit p-4 m-1 bg-slate-800 text-slate-100 text-3xl/10 "
       >
-        LAND ACQUISITION (Sample)
+        <img
+          src="https://EijiGorilla.github.io/Symbols/Projec_Logo/OCG.svg"
+          width={50}
+          className="mr-1 -mb-1"
+        />
+        Land Status (Sample)
         {/* Dropdown filter */}
         <div className="dropdownFilterLayout">
-          <b className="text-md text-slate-100 px-3 py-1">Station</b>
           <Select
             placeholder="Select Station"
             value={stationSelected}
@@ -120,7 +125,7 @@ function App() {
           />
         </div>
       </header>
-      <main className="flex-1 flex">
+      <main className="flex-1 flex ml-1 mb-1 mr-1">
         <MapContainer
           className="flex-1"
           center={[14.6821565, 121.0319746]}
